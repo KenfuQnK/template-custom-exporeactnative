@@ -23,7 +23,7 @@
     "expo-status-bar": "~3.0.8",
     "expo-system-ui": "~6.0.7",
     "expo-web-browser": "~15.0.7",
-    "nativewind": "latest",
+    "nativewind": "4.1.23",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.5",
@@ -35,6 +35,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@babel/parser": "^7.28.5",
+    "@babel/traverse": "^7.28.5",
     "@types/react": "~19.1.10",
     "eslint": "^9.25.1",
     "eslint-config-expo": "~10.0.0",

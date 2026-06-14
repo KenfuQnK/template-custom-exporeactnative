@@ -48,9 +48,9 @@ Esta es una plantilla base personalizada para el desarrollo de aplicaciones móv
    - `npm run web`
 
 4. **Adapta el codigo**:
+   
    - Ir a `app.json` y reemplazar `Template Custom Expo React Native` por el nombre de tu proyecto.
    - Hacer referencias cruzadas (Ctrl + Shift + F) y reemplazar `template-custom-exporeactnative` por el slug de tu proyecto.
-   
 
 ## 📁 Estructura del Proyecto
 
