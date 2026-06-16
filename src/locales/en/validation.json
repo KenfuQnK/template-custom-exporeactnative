@@ -1,0 +1,27 @@
+{
+  "required": "This field is required",
+  "invalidFormat": "Invalid format",
+  "invalidUrl": "Invalid URL",
+  "mustBeNumber": "Must be a number",
+  "minLength": "Minimum {{min}} characters",
+  "maxLength": "Maximum {{max}} characters",
+  "email": {
+    "required": "Email is required",
+    "invalid": "Invalid email"
+  },
+  "password": {
+    "required": "Password is required",
+    "tooShort": "Minimum {{min}} characters",
+    "mismatch": "Passwords do not match",
+    "strength": {
+      "weak": "Weak",
+      "medium": "Medium",
+      "strong": "Strong"
+    }
+  },
+  "name": {
+    "required": "Name is required",
+    "tooShort": "Name must be at least {{min}} characters",
+    "tooLong": "Name is too long"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "auth": {
+    "invalidCredentials": "Correo o contraseña incorrectos",
+    "emailAlreadyExists": "Este correo ya está registrado",
+    "emailNotVerified": "Debes verificar tu correo antes de continuar",
+    "weakPassword": "La contraseña es demasiado débil",
+    "userNotFound": "Usuario no encontrado",
+    "tooManyRequests": "Demasiados intentos. Inténtalo más tarde",
+    "sessionExpired": "Tu sesión ha caducado. Inicia sesión de nuevo"
+  },
+  "network": {
+    "offline": "Sin conexión a internet",
+    "timeout": "La solicitud ha caducado",
+    "serverError": "Error del servidor. Inténtalo más tarde",
+    "notFound": "Recurso no encontrado",
+    "unauthorized": "No autorizado. Inicia sesión de nuevo",
+    "forbidden": "No tienes permiso para realizar esta acción"
+  },
+  "general": {
+    "unknown": "Ha ocurrido un error desconocido",
+    "tryAgain": "Inténtalo de nuevo",
+    "contactSupport": "Si el problema persiste, contacta con soporte"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "buttons": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "create": "Erstellen",
+    "add": "Hinzufügen",
+    "confirm": "Bestätigen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "finish": "Fertig",
+    "close": "Schließen",
+    "ok": "OK",
+    "yes": "Ja",
+    "no": "Nein",
+    "retry": "Erneut versuchen",
+    "continue": "Fortfahren",
+    "accept": "Akzeptieren",
+    "decline": "Ablehnen",
+    "share": "Teilen"
+  },
+  "navigation": {
+    "home": "Start",
+    "profile": "Profil",
+    "settings": "Einstellungen",
+    "search": "Suchen",
+    "notifications": "Benachrichtigungen",
+    "goBack": "Zurück",
+    "screenNotFound": "Bildschirm nicht gefunden"
+  },
+  "messages": {
+    "loading": "Laden...",
+    "refreshing": "Aktualisieren...",
+    "success": "Vorgang erfolgreich",
+    "error": "Ein Fehler ist aufgetreten",
+    "noData": "Keine Daten verfügbar",
+    "noResults": "Keine Ergebnisse gefunden",
+    "emptyList": "Die Liste ist leer",
+    "connectionError": "Verbindungsfehler. Überprüfe dein Internet",
+    "tryAgain": "Erneut versuchen"
+  },
+  "time": {
+    "now": "Jetzt",
+    "today": "Heute",
+    "yesterday": "Gestern",
+    "tomorrow": "Morgen",
+    "daysAgo_one": "vor {{count}} Tag",
+    "daysAgo_other": "vor {{count}} Tagen",
+    "hoursAgo_one": "vor {{count}} Stunde",
+    "hoursAgo_other": "vor {{count}} Stunden",
+    "minutesAgo_one": "vor {{count}} Minute",
+    "minutesAgo_other": "vor {{count}} Minuten"
+  },
+  "confirmation": {
+    "deleteTitle": "Löschen?",
+    "deleteMessage": "Diese Aktion kann nicht rückgängig gemacht werden",
+    "unsavedChangesTitle": "Nicht gespeicherte Änderungen",
+    "unsavedChangesMessage": "Du hast nicht gespeicherte Änderungen. Möchtest du wirklich verlassen?"
+  },
+  "language": {
+    "title": "Sprache",
+    "subtitle": "Wähle deine Sprache"
+  },
+  "example": {
+    "tabs": { "one": "Tab 1", "two": "Tab 2" },
+    "home": { "greeting": "Hallo Welt", "subtitle": "Dies ist Tab 1" },
+    "tabTwo": { "greeting": "Hallo Welt", "subtitle": "Dies ist Tab 2" },
+    "modal": {
+      "title": "Hallo Welt",
+      "subtitle": "Ich bin ein funktionierendes Modal",
+      "footer": "Template Custom"
+    },
+    "notFound": {
+      "headerTitle": "Hoppla!",
+      "title": "Seite nicht gefunden",
+      "subtitle": "Dieser Bildschirm existiert nicht oder wurde verschoben.",
+      "goHome": "Zum Startbildschirm"
+    }
+  }
+}

@@ -1,5 +1,12 @@
 # Especificación: Sistema de Autenticación y Gestión de Usuarios
 
+> ⚠️ **Fuente de verdad de la implementación:** este documento describe el alcance
+> de UX/pantallas deseado, pero algunos patrones técnicos que menciona (cliente
+> único `@/utils/supabase`, `auth.service.ts`) **no** coinciden con la app de
+> referencia. Para la **arquitectura real y testeada** (cliente split
+> `.native`/`.web`, `AuthContext`, guard de rutas, gotchas de `onAuthStateChange`)
+> sigue [`auth-system-implementation.md`](./auth-system-implementation.md).
+
 **Última actualización:** 2026-01-05  
 
 **Versión:** 1.1  

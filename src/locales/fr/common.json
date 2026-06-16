@@ -1,0 +1,81 @@
+{
+  "buttons": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "add": "Ajouter",
+    "confirm": "Confirmer",
+    "back": "Retour",
+    "next": "Suivant",
+    "finish": "Terminer",
+    "close": "Fermer",
+    "ok": "OK",
+    "yes": "Oui",
+    "no": "Non",
+    "retry": "Réessayer",
+    "continue": "Continuer",
+    "accept": "Accepter",
+    "decline": "Refuser",
+    "share": "Partager"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "search": "Rechercher",
+    "notifications": "Notifications",
+    "goBack": "Retour",
+    "screenNotFound": "Écran introuvable"
+  },
+  "messages": {
+    "loading": "Chargement...",
+    "refreshing": "Actualisation...",
+    "success": "Opération réussie",
+    "error": "Une erreur est survenue",
+    "noData": "Aucune donnée disponible",
+    "noResults": "Aucun résultat trouvé",
+    "emptyList": "La liste est vide",
+    "connectionError": "Erreur de connexion. Vérifiez votre internet",
+    "tryAgain": "Réessayer"
+  },
+  "time": {
+    "now": "Maintenant",
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "tomorrow": "Demain",
+    "daysAgo_one": "il y a {{count}} jour",
+    "daysAgo_other": "il y a {{count}} jours",
+    "hoursAgo_one": "il y a {{count}} heure",
+    "hoursAgo_other": "il y a {{count}} heures",
+    "minutesAgo_one": "il y a {{count}} minute",
+    "minutesAgo_other": "il y a {{count}} minutes"
+  },
+  "confirmation": {
+    "deleteTitle": "Supprimer ?",
+    "deleteMessage": "Cette action est irréversible",
+    "unsavedChangesTitle": "Modifications non enregistrées",
+    "unsavedChangesMessage": "Vous avez des modifications non enregistrées. Voulez-vous quitter ?"
+  },
+  "language": {
+    "title": "Langue",
+    "subtitle": "Choisissez votre langue"
+  },
+  "example": {
+    "tabs": { "one": "Onglet 1", "two": "Onglet 2" },
+    "home": { "greeting": "Bonjour le monde", "subtitle": "Ceci est l'onglet 1" },
+    "tabTwo": { "greeting": "Bonjour le monde", "subtitle": "Ceci est l'onglet 2" },
+    "modal": {
+      "title": "Bonjour le monde",
+      "subtitle": "Je suis une fenêtre modale fonctionnelle",
+      "footer": "Template Custom"
+    },
+    "notFound": {
+      "headerTitle": "Oups !",
+      "title": "Page introuvable",
+      "subtitle": "Cet écran n'existe pas ou a été déplacé.",
+      "goHome": "Aller à l'écran d'accueil"
+    }
+  }
+}

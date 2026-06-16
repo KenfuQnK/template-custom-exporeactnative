@@ -33,8 +33,8 @@ Debes migrar a i18n el 100% de textos fijos visibles al usuario en TODO el repo:
 - Escanea el repo e identifica los archivos con textos hardcodeados de UI
 - Migra archivo por archivo reemplazando literales por t().
 - Rellena traducciones para .json para cada idioma manteniendo la misma estructura.
-- Ejecuta el script de verificación de .json: `scripts/validate-translations.js`
-- Ejecuta el script de verificación de .json: `scripts/validate-no-hardcoded-ui.js`
+- Ejecuta el script de verificación de .json: `scripts/validate/validate-Translations.js`
+- Ejecuta el script de verificación de .json: `scripts/validate/validate--NoHardcodedUI.js`
 - Si quedan textos hardcodeados en UI, seguir migrando.
 
 ## Criterio de aceptación:

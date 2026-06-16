@@ -1,0 +1,27 @@
+{
+  "required": "Este campo es obligatorio",
+  "invalidFormat": "Formato no válido",
+  "invalidUrl": "URL no válida",
+  "mustBeNumber": "Debe ser un número",
+  "minLength": "Mínimo {{min}} caracteres",
+  "maxLength": "Máximo {{max}} caracteres",
+  "email": {
+    "required": "El correo es obligatorio",
+    "invalid": "Correo no válido"
+  },
+  "password": {
+    "required": "La contraseña es obligatoria",
+    "tooShort": "Mínimo {{min}} caracteres",
+    "mismatch": "Las contraseñas no coinciden",
+    "strength": {
+      "weak": "Débil",
+      "medium": "Media",
+      "strong": "Fuerte"
+    }
+  },
+  "name": {
+    "required": "El nombre es obligatorio",
+    "tooShort": "El nombre debe tener al menos {{min}} caracteres",
+    "tooLong": "El nombre es demasiado largo"
+  }
+}

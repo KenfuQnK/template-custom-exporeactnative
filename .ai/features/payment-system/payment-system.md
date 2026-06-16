@@ -1,3 +1,7 @@
+> ℹ️ Este archivo es el **prompt** de alto nivel. Para la **implementación real y
+> testeada** (RevenueCat: `SubscriptionContext`, gating, paywall, trial server-side
+> y gotchas) sigue [`payment-system-spec.md`](./payment-system-spec.md).
+
 Objetivo. Quiero un paywall que permita al usuario comprar y restaurar una suscripción, y que la app desbloquee “modo Pro” cuando el entitlement esté activo.
 
 Contexto técnico. La app es Expo React Native. Asume que usaré development builds; no uses Expo Go. Usa el SDK oficial de RevenueCat para React Native.

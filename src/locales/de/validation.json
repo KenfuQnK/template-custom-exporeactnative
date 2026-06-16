@@ -1,0 +1,27 @@
+{
+  "required": "Dieses Feld ist erforderlich",
+  "invalidFormat": "Ungültiges Format",
+  "invalidUrl": "Ungültige URL",
+  "mustBeNumber": "Muss eine Zahl sein",
+  "minLength": "Mindestens {{min}} Zeichen",
+  "maxLength": "Maximal {{max}} Zeichen",
+  "email": {
+    "required": "E-Mail ist erforderlich",
+    "invalid": "Ungültige E-Mail"
+  },
+  "password": {
+    "required": "Passwort ist erforderlich",
+    "tooShort": "Mindestens {{min}} Zeichen",
+    "mismatch": "Die Passwörter stimmen nicht überein",
+    "strength": {
+      "weak": "Schwach",
+      "medium": "Mittel",
+      "strong": "Stark"
+    }
+  },
+  "name": {
+    "required": "Name ist erforderlich",
+    "tooShort": "Der Name muss mindestens {{min}} Zeichen lang sein",
+    "tooLong": "Der Name ist zu lang"
+  }
+}

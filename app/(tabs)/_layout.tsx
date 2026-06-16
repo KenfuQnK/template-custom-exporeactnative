@@ -1,23 +1,26 @@
-import { Link, Tabs } from "expo-router";
+import { Link, Tabs } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
-import { HeaderButton } from '../../components/HeaderButton';
-import { TabBarIcon } from '../../components/TabBarIcon';
+import { HeaderButton } from '@/src/components/HeaderButton';
+import { TabBarIcon } from '@/src/components/TabBarIcon';
+import { Colors } from '@/src/constants/Colors';
 
 export default function TabLayout() {
+  const { t } = useTranslation('common');
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'black',
+        tabBarActiveTintColor: Colors.primary,
         headerShown: false,
       }}>
       <Tabs.Screen
-        name='index'
+        name="index"
         options={{
-          title: 'Tab One',
+          title: t('example.tabs.one'),
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
-            <Link href='/modal' asChild>
+            <Link href="/modal" asChild>
               <HeaderButton />
             </Link>
           ),
@@ -26,11 +29,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Tab Two',
+          title: t('example.tabs.two'),
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
     </Tabs>
   );
 }
-

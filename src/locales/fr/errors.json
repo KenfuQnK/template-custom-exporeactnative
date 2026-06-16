@@ -1,0 +1,24 @@
+{
+  "auth": {
+    "invalidCredentials": "E-mail ou mot de passe incorrect",
+    "emailAlreadyExists": "Cet e-mail est déjà enregistré",
+    "emailNotVerified": "Vous devez vérifier votre e-mail avant de continuer",
+    "weakPassword": "Le mot de passe est trop faible",
+    "userNotFound": "Utilisateur introuvable",
+    "tooManyRequests": "Trop de tentatives. Réessayez plus tard",
+    "sessionExpired": "Votre session a expiré. Reconnectez-vous"
+  },
+  "network": {
+    "offline": "Pas de connexion internet",
+    "timeout": "La requête a expiré",
+    "serverError": "Erreur du serveur. Réessayez plus tard",
+    "notFound": "Ressource introuvable",
+    "unauthorized": "Non autorisé. Reconnectez-vous",
+    "forbidden": "Vous n'avez pas la permission d'effectuer cette action"
+  },
+  "general": {
+    "unknown": "Une erreur inconnue est survenue",
+    "tryAgain": "Réessayer",
+    "contactSupport": "Si le problème persiste, contactez le support"
+  }
+}

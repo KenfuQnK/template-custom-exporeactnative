@@ -1,0 +1,24 @@
+{
+  "auth": {
+    "invalidCredentials": "Incorrect email or password",
+    "emailAlreadyExists": "This email is already registered",
+    "emailNotVerified": "You must verify your email before continuing",
+    "weakPassword": "Password is too weak",
+    "userNotFound": "User not found",
+    "tooManyRequests": "Too many attempts. Try again later",
+    "sessionExpired": "Your session has expired. Log in again"
+  },
+  "network": {
+    "offline": "No internet connection",
+    "timeout": "Request timed out",
+    "serverError": "Server error. Try again later",
+    "notFound": "Resource not found",
+    "unauthorized": "Unauthorized. Log in again",
+    "forbidden": "You do not have permission to perform this action"
+  },
+  "general": {
+    "unknown": "An unknown error occurred",
+    "tryAgain": "Try again",
+    "contactSupport": "If the problem persists, contact support"
+  }
+}

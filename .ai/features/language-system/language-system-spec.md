@@ -23,7 +23,7 @@ Implementar un sistema completo de internacionalización (i18n) que permita trad
 
 ### Funcionales
 
-- ✅ Soporte para múltiples idiomas 
+- ✅ Soporte para múltiples idiomas
 - ✅ Cambio de idioma en tiempo real sin reiniciar la app
 - ✅ Persistencia de la preferencia de idioma del usuario
 - ✅ Detección automática del idioma del dispositivo
@@ -98,9 +98,9 @@ Este código es de ejemplo. Debe adaptarse al repo real. No hay que copiarlo a c
 - [ ] Configurar `utils/i18n.ts`
 - [ ] Crear archivo TypeScript `types/i18next.d.ts`
 - [ ] Añadir scripts de validación a `package.json`:
-    - `"validate:translations": "node scripts/validate-translations.js"`
-    - `"validate:i18n-ui": "node scripts/validate-no-hardcoded-ui.js"`
-    - `"validate:i18n": "npm run validate:translations && npm run validate:i18n-ui"`
+  - `"validate:translations": "node scripts/validate/validate-Translations.js"`
+  - `"validate:i18n-ui": "node scripts/validate/validate-NoHardcodedUI.js"`
+  - `"validate:i18n": "npm run validate:translations && npm run validate:i18n-ui"`
 - [ ] Integrar providers en `app/_layout.tsx`
 
 ### Fase 2: Traducciones Base
@@ -141,33 +141,27 @@ Este código es de ejemplo. Debe adaptarse al repo real. No hay que copiarlo a c
 ## 🎯 Casos Edge a Considerar
 
 1. **Idioma no soportado del dispositivo**
-   
    - Fallback a inglés automáticamente
    - Mostrar selector de idioma en onboarding
 
 2. **Traducción faltante**
-   
    - Mostrar clave en inglés (fallback language)
    - Log warning en desarrollo
 
 3. **Cambio de idioma mientras se cargan datos**
-   
    - Esperar a que termine la carga
    - Mostrar loading state durante cambio
 
 4. **Variables con formato especial**
-   
    - Fechas: usar Intl.DateTimeFormat
    - Números: usar Intl.NumberFormat
    - Moneda: usar Intl.NumberFormat con currency
 
 5. **Textos muy largos en algunos idiomas**
-   
    - Diseñar UI flexible (no anchos fijos)
    - Probar con idioma alemán (palabras largas)
 
 6. **Dirección RTL (futuro)**
-   
    - Preparar estructura para RTL
    - Usar i18n.dir() para detectar dirección
 

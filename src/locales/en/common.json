@@ -1,0 +1,81 @@
+{
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "add": "Add",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish",
+    "close": "Close",
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No",
+    "retry": "Retry",
+    "continue": "Continue",
+    "accept": "Accept",
+    "decline": "Decline",
+    "share": "Share"
+  },
+  "navigation": {
+    "home": "Home",
+    "profile": "Profile",
+    "settings": "Settings",
+    "search": "Search",
+    "notifications": "Notifications",
+    "goBack": "Go Back",
+    "screenNotFound": "Screen not found"
+  },
+  "messages": {
+    "loading": "Loading...",
+    "refreshing": "Refreshing...",
+    "success": "Operation successful",
+    "error": "An error occurred",
+    "noData": "No data available",
+    "noResults": "No results found",
+    "emptyList": "The list is empty",
+    "connectionError": "Connection error. Check your internet",
+    "tryAgain": "Try again"
+  },
+  "time": {
+    "now": "Now",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "daysAgo_one": "{{count}} day ago",
+    "daysAgo_other": "{{count}} days ago",
+    "hoursAgo_one": "{{count}} hour ago",
+    "hoursAgo_other": "{{count}} hours ago",
+    "minutesAgo_one": "{{count}} minute ago",
+    "minutesAgo_other": "{{count}} minutes ago"
+  },
+  "confirmation": {
+    "deleteTitle": "Delete?",
+    "deleteMessage": "This action cannot be undone",
+    "unsavedChangesTitle": "Unsaved changes",
+    "unsavedChangesMessage": "You have unsaved changes. Do you want to leave?"
+  },
+  "language": {
+    "title": "Language",
+    "subtitle": "Choose your language"
+  },
+  "example": {
+    "tabs": { "one": "Tab One", "two": "Tab Two" },
+    "home": { "greeting": "Hello World", "subtitle": "This is Tab One" },
+    "tabTwo": { "greeting": "Hello World", "subtitle": "This is Tab Two" },
+    "modal": {
+      "title": "Hello world",
+      "subtitle": "I'm a functional modal",
+      "footer": "Template Custom"
+    },
+    "notFound": {
+      "headerTitle": "Oops!",
+      "title": "Page Not Found",
+      "subtitle": "This screen doesn't exist or has been moved.",
+      "goHome": "Go to home screen"
+    }
+  }
+}

@@ -1,41 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { Platform, Text, View, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Button } from '../components/Button';
+import { StatusBar } from 'expo-status-bar';
+import { useTranslation } from 'react-i18next';
+import { Pressable, Text, View } from 'react-native';
+
+import { Button } from '@/src/components/Button';
 
 export default function Modal() {
+  const { t } = useTranslation('common');
   const router = useRouter();
 
   return (
     <View className="flex-1 bg-transparent">
       {/* Dimmed Background Overlay */}
-      <Pressable
-        className="absolute inset-0 bg-black/40"
-        onPress={() => router.back()}
-      />
+      <Pressable className="absolute inset-0 bg-black/40" onPress={() => router.back()} />
 
       {/* Modal Container */}
       <View className="flex-1 items-center justify-center p-6">
-        <View className="bg-white p-8 rounded-[40px] shadow-2xl items-center w-full max-w-sm border border-gray-100 overflow-hidden">
-          <View className="w-12 h-1.5 bg-gray-200 rounded-full mb-8" />
+        <View className="w-full max-w-sm items-center overflow-hidden rounded-[40px] border border-border bg-background p-8 shadow-2xl">
+          <View className="mb-8 h-1.5 w-12 rounded-full bg-surface-alt" />
 
-          <Text className="text-3xl font-extrabold text-gray-900 mb-2 text-center tracking-tight">
-            Hello world
+          <Text className="mb-2 text-center text-3xl font-extrabold tracking-tight text-foreground">
+            {t('example.modal.title')}
           </Text>
-          <Text className="text-lg text-gray-500 text-center mb-8 font-medium">
-            I'm a functional modal
+          <Text className="mb-8 text-center text-lg font-medium text-muted">
+            {t('example.modal.subtitle')}
           </Text>
 
-          <View className="h-[1px] w-full bg-gray-100 mb-8" />
+          <View className="mb-8 h-[1px] w-full bg-border" />
 
-          <Button
-            title="Dismiss"
-            onPress={() => router.back()}
-            className="w-full bg-black"
-          />
+          <Button title={t('buttons.close')} onPress={() => router.back()} className="w-full" />
 
-          <Text className="text-xs text-gray-400 mt-6 uppercase tracking-widest font-bold">
-            Template Custom
+          <Text className="mt-6 text-xs font-bold uppercase tracking-widest text-muted">
+            {t('example.modal.footer')}
           </Text>
         </View>
       </View>
@@ -44,6 +40,3 @@ export default function Modal() {
     </View>
   );
 }
-
-
-

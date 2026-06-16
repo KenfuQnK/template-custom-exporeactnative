@@ -1,0 +1,24 @@
+{
+  "auth": {
+    "invalidCredentials": "E-Mail oder Passwort falsch",
+    "emailAlreadyExists": "Diese E-Mail ist bereits registriert",
+    "emailNotVerified": "Du musst deine E-Mail bestätigen, bevor du fortfährst",
+    "weakPassword": "Das Passwort ist zu schwach",
+    "userNotFound": "Benutzer nicht gefunden",
+    "tooManyRequests": "Zu viele Versuche. Versuche es später erneut",
+    "sessionExpired": "Deine Sitzung ist abgelaufen. Melde dich erneut an"
+  },
+  "network": {
+    "offline": "Keine Internetverbindung",
+    "timeout": "Zeitüberschreitung der Anfrage",
+    "serverError": "Serverfehler. Versuche es später erneut",
+    "notFound": "Ressource nicht gefunden",
+    "unauthorized": "Nicht autorisiert. Melde dich erneut an",
+    "forbidden": "Du hast keine Berechtigung für diese Aktion"
+  },
+  "general": {
+    "unknown": "Ein unbekannter Fehler ist aufgetreten",
+    "tryAgain": "Erneut versuchen",
+    "contactSupport": "Wenn das Problem weiterhin besteht, kontaktiere den Support"
+  }
+}

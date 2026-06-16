@@ -581,7 +581,7 @@ export function LanguageSelector({ variant = 'list' }: LanguageSelectorProps) {
           } ${isChanging ? 'opacity-50' : ''}`}
           accessibilityRole="radio"
           accessibilityLabel={supportedLanguages[lang]}
-          accessibilityState={{ 
+          accessibilityState={{
             checked: currentLanguage === lang,
             disabled: isChanging,
           }}
@@ -743,7 +743,7 @@ function EventCard({ date }: { date: string }) {
 
       {/* Con hora: 27/12/2024, 14:30 */}
       <Text>
-        {formatDate(date, { 
+        {formatDate(date, {
           dateStyle: 'short',
           timeStyle: 'short',
         })}
@@ -805,25 +805,25 @@ function PriceCard({ price }: { price: number }) {
 ### Archivo: `types/i18next.d.ts`
 
 ```typescript
-import 'i18next'
+import 'i18next';
 
 // Importar tipos de recursos
-import common from '@/locales/es/common.json'
-import auth from '@/locales/es/auth.json'
-import profile from '@/locales/es/profile.json'
-import errors from '@/locales/es/errors.json'
-import validation from '@/locales/es/validation.json'
+import common from '@/locales/es/common.json';
+import auth from '@/locales/es/auth.json';
+import profile from '@/locales/es/profile.json';
+import errors from '@/locales/es/errors.json';
+import validation from '@/locales/es/validation.json';
 
 declare module 'i18next' {
   interface CustomTypeOptions {
-    defaultNS: 'common'
+    defaultNS: 'common';
     resources: {
-      common: typeof common
-      auth: typeof auth
-      profile: typeof profile
-      errors: typeof errors
-      validation: typeof validation
-    }
+      common: typeof common;
+      auth: typeof auth;
+      profile: typeof profile;
+      errors: typeof errors;
+      validation: typeof validation;
+    };
   }
 }
 ```
@@ -832,10 +832,10 @@ declare module 'i18next' {
 
 ```typescript
 // ✅ Correcto
-t('auth:login.title')
+t('auth:login.title');
 
 // ❌ Error de TypeScript
-t('auth:login.titleee') // "titleee" no existe
+t('auth:login.titleee'); // "titleee" no existe
 ```
 
 ---
@@ -984,92 +984,92 @@ describe('useFormattedDate', () => {
 ### Archivo: `scripts/validate-translations.js`
 
 ```javascript
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
-const LOCALES_DIR = path.join(__dirname, '../locales')
-const LANGUAGES = ['en', 'es', 'fr', 'de']
-const NAMESPACES = ['common', 'auth', 'profile', 'errors', 'validation']
+const LOCALES_DIR = path.join(__dirname, '../locales');
+const LANGUAGES = ['en', 'es', 'fr', 'de'];
+const NAMESPACES = ['common', 'auth', 'profile', 'errors', 'validation'];
 
 function flattenObject(obj, prefix = '') {
-  const result = {}
+  const result = {};
 
   for (const [key, value] of Object.entries(obj)) {
-    const newKey = prefix ? `${prefix}.${key}` : key
+    const newKey = prefix ? `${prefix}.${key}` : key;
 
     if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-      Object.assign(result, flattenObject(value, newKey))
+      Object.assign(result, flattenObject(value, newKey));
     } else {
-      result[newKey] = value
+      result[newKey] = value;
     }
   }
 
-  return result
+  return result;
 }
 
 function validateTranslations() {
-  console.log('🔍 Validando traducciones...\n')
+  console.log('🔍 Validando traducciones...\n');
 
-  let hasErrors = false
+  let hasErrors = false;
 
   // Cargar español como referencia
-  const referenceKeys = {}
+  const referenceKeys = {};
 
   NAMESPACES.forEach((namespace) => {
-    const filePath = path.join(LOCALES_DIR, 'es', `${namespace}.json`)
-    const content = JSON.parse(fs.readFileSync(filePath, 'utf8'))
-    referenceKeys[namespace] = flattenObject(content)
-  })
+    const filePath = path.join(LOCALES_DIR, 'es', `${namespace}.json`);
+    const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    referenceKeys[namespace] = flattenObject(content);
+  });
 
   // Validar otros idiomas
   LANGUAGES.forEach((lang) => {
-    if (lang === 'es') return // Skip reference language
+    if (lang === 'es') return; // Skip reference language
 
-    console.log(`📝 Validando ${lang}...\n`)
+    console.log(`📝 Validando ${lang}...\n`);
 
     NAMESPACES.forEach((namespace) => {
-      const filePath = path.join(LOCALES_DIR, lang, `${namespace}.json`)
+      const filePath = path.join(LOCALES_DIR, lang, `${namespace}.json`);
 
       if (!fs.existsSync(filePath)) {
-        console.error(`❌ Falta archivo: ${filePath}`)
-        hasErrors = true
-        return
+        console.error(`❌ Falta archivo: ${filePath}`);
+        hasErrors = true;
+        return;
       }
 
-      const content = JSON.parse(fs.readFileSync(filePath, 'utf8'))
-      const langKeys = flattenObject(content)
+      const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      const langKeys = flattenObject(content);
 
-      const referenceSet = new Set(Object.keys(referenceKeys[namespace]))
-      const langSet = new Set(Object.keys(langKeys))
+      const referenceSet = new Set(Object.keys(referenceKeys[namespace]));
+      const langSet = new Set(Object.keys(langKeys));
 
       // Claves faltantes
-      const missing = [...referenceSet].filter((key) => !langSet.has(key))
+      const missing = [...referenceSet].filter((key) => !langSet.has(key));
       if (missing.length > 0) {
-        console.error(`❌ ${namespace} - Claves faltantes en ${lang}:`)
-        missing.forEach((key) => console.error(`   - ${key}`))
-        hasErrors = true
+        console.error(`❌ ${namespace} - Claves faltantes en ${lang}:`);
+        missing.forEach((key) => console.error(`   - ${key}`));
+        hasErrors = true;
       }
 
       // Claves extra (posible error)
-      const extra = [...langSet].filter((key) => !referenceSet.has(key))
+      const extra = [...langSet].filter((key) => !referenceSet.has(key));
       if (extra.length > 0) {
-        console.warn(`⚠️  ${namespace} - Claves extra en ${lang}:`)
-        extra.forEach((key) => console.warn(`   - ${key}`))
+        console.warn(`⚠️  ${namespace} - Claves extra en ${lang}:`);
+        extra.forEach((key) => console.warn(`   - ${key}`));
       }
-    })
+    });
 
-    console.log()
-  })
+    console.log();
+  });
 
   if (hasErrors) {
-    console.error('❌ Validación fallida. Corrige los errores anteriores.')
-    process.exit(1)
+    console.error('❌ Validación fallida. Corrige los errores anteriores.');
+    process.exit(1);
   } else {
-    console.log('✅ Todas las traducciones están completas!')
+    console.log('✅ Todas las traducciones están completas!');
   }
 }
 
-validateTranslations()
+validateTranslations();
 ```
 
 **Ejecutar:**
@@ -1087,38 +1087,30 @@ Detecta textos hardcodeados visibles al usuario en UI
 - Revisa atributos típicos: placeholder="...", title="...", accessibilityLabel="..."
 - Revisa Alert.alert("Título", "Mensaje")
 - Revisa constantes string usadas directamente en JSX: const title="Hola";
-  
-  
 
-### Archivo: `scripts/validate--no-hardcoded-ui.js`
+### Archivo: `scripts/validate/validate--NoHardcodedUI.js`
 
 ```javascript
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
-let parser, traverse
+let parser, traverse;
 try {
-  parser = require('@babel/parser')
-  traverse = require('@babel/traverse').default
+  parser = require('@babel/parser');
+  traverse = require('@babel/traverse').default;
 } catch (e) {
-  console.error('❌ Faltan dependencias para parsear AST.')
-  console.error('Instala: npm i -D @babel/parser @babel/traverse')
-  process.exit(1)
+  console.error('❌ Faltan dependencias para parsear AST.');
+  console.error('Instala: npm i -D @babel/parser @babel/traverse');
+  process.exit(1);
 }
 
-const ROOT_DIR = path.join(__dirname, '..')
+const ROOT_DIR = path.join(__dirname, '..');
 
 // Carpetas a revisar (ajusta según tu repo)
-const SCAN_DIRS = [
-  'app',
-  'components',
-  'screens',
-  'navigation',
-  'modals',
-]
+const SCAN_DIRS = ['app', 'components', 'screens', 'navigation', 'modals'];
 
 // Extensiones a revisar
-const EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx'])
+const EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx']);
 
 // Carpetas a ignorar
 const IGNORE_DIRS = new Set([
@@ -1131,7 +1123,7 @@ const IGNORE_DIRS = new Set([
   'ios',
   'android',
   'locales', // traducciones
-])
+]);
 
 // Props típicos de UI donde suele haber texto visible
 const UI_TEXT_ATTRS = new Set([
@@ -1143,116 +1135,109 @@ const UI_TEXT_ATTRS = new Set([
   'accessibilityHint',
   'aria-label',
   'ariaLabel',
-])
+]);
 
 // Atributos que suelen ser IDs o cosas técnicas; no los tratamos como UI visible
-const IGNORE_ATTRS = new Set([
-  'testID',
-  'key',
-  'className',
-  'style',
-  'name',
-  'id',
-  'source',
-])
+const IGNORE_ATTRS = new Set(['testID', 'key', 'className', 'style', 'name', 'id', 'source']);
 
 function isWhitespaceOnly(str) {
-  return !str || str.trim().length === 0
+  return !str || str.trim().length === 0;
 }
 
 function isSimpleTemplateLiteral(node) {
-  return node && node.type === 'TemplateLiteral' && node.expressions && node.expressions.length === 0
+  return (
+    node && node.type === 'TemplateLiteral' && node.expressions && node.expressions.length === 0
+  );
 }
 
 function getStringValue(node) {
-  if (!node) return null
-  if (node.type === 'StringLiteral') return node.value
-  if (isSimpleTemplateLiteral(node)) return node.quasis.map(q => q.value.cooked).join('')
-  return null
+  if (!node) return null;
+  if (node.type === 'StringLiteral') return node.value;
+  if (isSimpleTemplateLiteral(node)) return node.quasis.map((q) => q.value.cooked).join('');
+  return null;
 }
 
 function toPos(loc) {
-  if (!loc) return { line: 0, column: 0 }
-  return { line: loc.start.line, column: loc.start.column + 1 }
+  if (!loc) return { line: 0, column: 0 };
+  return { line: loc.start.line, column: loc.start.column + 1 };
 }
 
 function excerptAt(code, loc, maxLen = 140) {
-  if (!loc) return ''
-  const lines = code.split(/\r?\n/)
-  const line = lines[loc.start.line - 1] || ''
-  const trimmed = line.trim()
-  if (trimmed.length <= maxLen) return trimmed
-  return trimmed.slice(0, maxLen) + '…'
+  if (!loc) return '';
+  const lines = code.split(/\r?\n/);
+  const line = lines[loc.start.line - 1] || '';
+  const trimmed = line.trim();
+  if (trimmed.length <= maxLen) return trimmed;
+  return trimmed.slice(0, maxLen) + '…';
 }
 
 function walkDir(dirPath, results) {
-  if (!fs.existsSync(dirPath)) return
+  if (!fs.existsSync(dirPath)) return;
 
-  const entries = fs.readdirSync(dirPath, { withFileTypes: true })
+  const entries = fs.readdirSync(dirPath, { withFileTypes: true });
   for (const entry of entries) {
-    const full = path.join(dirPath, entry.name)
+    const full = path.join(dirPath, entry.name);
 
     if (entry.isDirectory()) {
-      if (IGNORE_DIRS.has(entry.name)) continue
-      walkDir(full, results)
-      continue
+      if (IGNORE_DIRS.has(entry.name)) continue;
+      walkDir(full, results);
+      continue;
     }
 
-    const ext = path.extname(entry.name)
-    if (!EXTENSIONS.has(ext)) continue
-    results.push(full)
+    const ext = path.extname(entry.name);
+    if (!EXTENSIONS.has(ext)) continue;
+    results.push(full);
   }
 }
 
 function isInsideTCall(pathNode) {
   // Evita marcar strings como: t('auth:login.title')
   // Soporta: t(...), i18n.t(...)
-  let p = pathNode
+  let p = pathNode;
   while (p) {
     if (p.isCallExpression && p.isCallExpression()) {
-      const callee = p.node.callee
-      if (callee && callee.type === 'Identifier' && callee.name === 't') return true
+      const callee = p.node.callee;
+      if (callee && callee.type === 'Identifier' && callee.name === 't') return true;
       if (
         callee &&
         callee.type === 'MemberExpression' &&
         callee.property &&
         callee.property.type === 'Identifier' &&
         callee.property.name === 't'
-      ) return true
+      )
+        return true;
     }
-    p = p.parentPath
+    p = p.parentPath;
   }
-  return false
+  return false;
 }
 
 function isConsoleCall(pathNode) {
-  if (!pathNode || !pathNode.isCallExpression || !pathNode.isCallExpression()) return false
-  const callee = pathNode.node.callee
-  if (!callee || callee.type !== 'MemberExpression') return false
-  const obj = callee.object
-  if (!obj || obj.type !== 'Identifier' || obj.name !== 'console') return false
-  return true
+  if (!pathNode || !pathNode.isCallExpression || !pathNode.isCallExpression()) return false;
+  const callee = pathNode.node.callee;
+  if (!callee || callee.type !== 'MemberExpression') return false;
+  const obj = callee.object;
+  if (!obj || obj.type !== 'Identifier' || obj.name !== 'console') return false;
+  return true;
 }
 
 function calleeToString(callee) {
   // Convierte Alert.alert => "Alert.alert"
-  if (!callee) return ''
-  if (callee.type === 'Identifier') return callee.name
+  if (!callee) return '';
+  if (callee.type === 'Identifier') return callee.name;
   if (callee.type === 'MemberExpression') {
-    const left = calleeToString(callee.object)
+    const left = calleeToString(callee.object);
     const right =
-      callee.property && callee.property.type === 'Identifier'
-        ? callee.property.name
-        : ''
-    return left && right ? `${left}.${right}` : left || right
+      callee.property && callee.property.type === 'Identifier' ? callee.property.name : '';
+    return left && right ? `${left}.${right}` : left || right;
   }
-  return ''
+  return '';
 }
 
 function validateFile(filePath) {
-  const code = fs.readFileSync(filePath, 'utf8')
+  const code = fs.readFileSync(filePath, 'utf8');
 
-  let ast
+  let ast;
   try {
     ast = parser.parse(code, {
       sourceType: 'module',
@@ -1267,26 +1252,28 @@ function validateFile(filePath) {
         'decorators-legacy',
       ],
       errorRecovery: true,
-    })
+    });
   } catch (e) {
-    return [{
-      file: filePath,
-      line: 0,
-      column: 0,
-      kind: 'parse_error',
-      message: `No se pudo parsear el archivo: ${e.message}`,
-      excerpt: '',
-    }]
+    return [
+      {
+        file: filePath,
+        line: 0,
+        column: 0,
+        kind: 'parse_error',
+        message: `No se pudo parsear el archivo: ${e.message}`,
+        excerpt: '',
+      },
+    ];
   }
 
-  const issues = []
+  const issues = [];
 
   // Heurística: constantes string (const x = "Hola") para detectar uso en JSX: <Text>{x}</Text>
   // Guardamos bindings de variables inicializadas con string literal / template simple.
-  const stringConstBindings = new Set()
+  const stringConstBindings = new Set();
 
   function addIssue(node, kind, message) {
-    const pos = toPos(node && node.loc)
+    const pos = toPos(node && node.loc);
     issues.push({
       file: filePath,
       line: pos.line,
@@ -1294,70 +1281,66 @@ function validateFile(filePath) {
       kind,
       message,
       excerpt: excerptAt(code, node && node.loc),
-    })
+    });
   }
 
   traverse(ast, {
     VariableDeclarator(p) {
-      const { id, init } = p.node
-      if (!id || id.type !== 'Identifier') return
-      const val = getStringValue(init)
-      if (val === null) return
-      if (isInsideTCall(p)) return // no aplica, pero por coherencia
-      const binding = p.scope.getBinding(id.name)
-      if (binding) stringConstBindings.add(binding)
+      const { id, init } = p.node;
+      if (!id || id.type !== 'Identifier') return;
+      const val = getStringValue(init);
+      if (val === null) return;
+      if (isInsideTCall(p)) return; // no aplica, pero por coherencia
+      const binding = p.scope.getBinding(id.name);
+      if (binding) stringConstBindings.add(binding);
     },
 
     JSXText(p) {
-      const raw = p.node.value
-      if (isWhitespaceOnly(raw)) return
+      const raw = p.node.value;
+      if (isWhitespaceOnly(raw)) return;
 
       // JSXText real (ej: <Text>Hola</Text>)
-      addIssue(
-        p.node,
-        'jsx_text',
-        'Texto hardcodeado en JSX. Sustitúyelo por {t("...")}.'
-      )
+      addIssue(p.node, 'jsx_text', 'Texto hardcodeado en JSX. Sustitúyelo por {t("...")}.');
     },
 
     JSXExpressionContainer(p) {
-      const expr = p.node.expression
-      if (!expr) return
+      const expr = p.node.expression;
+      if (!expr) return;
 
       // <Text>{"Hola"}</Text> o <Text>{`Hola`}</Text>
-      const direct = getStringValue(expr)
+      const direct = getStringValue(expr);
       if (direct !== null && !isWhitespaceOnly(direct)) {
         addIssue(
           p.node,
           'jsx_expr_string',
           'String hardcodeado en expresión JSX. Sustitúyelo por t("...").'
-        )
-        return
+        );
+        return;
       }
 
       // <Text>{title}</Text> donde title = "Hola"
       if (expr.type === 'Identifier') {
-        const binding = p.scope.getBinding(expr.name)
+        const binding = p.scope.getBinding(expr.name);
         if (binding && stringConstBindings.has(binding)) {
           addIssue(
             p.node,
             'jsx_identifier_string',
             `Constante string "${expr.name}" usada en JSX. Debe venir de i18n.`
-          )
+          );
         }
       }
     },
 
     JSXAttribute(p) {
-      const nameNode = p.node.name
-      if (!nameNode || nameNode.type !== 'JSXIdentifier') return
-      const attrName = nameNode.name
+      const nameNode = p.node.name;
+      if (!nameNode || nameNode.type !== 'JSXIdentifier') return;
+      const attrName = nameNode.name;
 
-      if (IGNORE_ATTRS.has(attrName)) return
-      if (!UI_TEXT_ATTRS.has(attrName)) return
+      if (IGNORE_ATTRS.has(attrName)) return;
+      if (!UI_TEXT_ATTRS.has(attrName)) return;
 
-      const valNode = p.node.value
-      if (!valNode) return
+      const valNode = p.node.value;
+      if (!valNode) return;
 
       // placeholder="Hola"
       if (valNode.type === 'StringLiteral') {
@@ -1366,46 +1349,47 @@ function validateFile(filePath) {
             valNode,
             'jsx_attr_string',
             `Prop "${attrName}" con string hardcodeado. Sustitúyelo por {t("...")}.`
-          )
+          );
         }
-        return
+        return;
       }
 
       // placeholder={"Hola"} o placeholder={`Hola`} o placeholder={title}
       if (valNode.type === 'JSXExpressionContainer') {
-        const expr = valNode.expression
+        const expr = valNode.expression;
 
         // placeholder={t('...')} => OK
         if (expr && expr.type === 'CallExpression') {
-          const callee = expr.callee
-          if (callee && callee.type === 'Identifier' && callee.name === 't') return
+          const callee = expr.callee;
+          if (callee && callee.type === 'Identifier' && callee.name === 't') return;
           if (
             callee &&
             callee.type === 'MemberExpression' &&
             callee.property &&
             callee.property.type === 'Identifier' &&
             callee.property.name === 't'
-          ) return
+          )
+            return;
         }
 
-        const direct = getStringValue(expr)
+        const direct = getStringValue(expr);
         if (direct !== null && !isWhitespaceOnly(direct)) {
           addIssue(
             valNode,
             'jsx_attr_expr_string',
             `Prop "${attrName}" con string hardcodeado. Sustitúyelo por t("...").`
-          )
-          return
+          );
+          return;
         }
 
         if (expr && expr.type === 'Identifier') {
-          const binding = p.scope.getBinding(expr.name)
+          const binding = p.scope.getBinding(expr.name);
           if (binding && stringConstBindings.has(binding)) {
             addIssue(
               valNode,
               'jsx_attr_identifier_string',
               `Prop "${attrName}" usa constante string "${expr.name}". Debe venir de i18n.`
-            )
+            );
           }
         }
       }
@@ -1413,96 +1397,94 @@ function validateFile(filePath) {
 
     CallExpression(p) {
       // No traducimos consola
-      if (isConsoleCall(p)) return
+      if (isConsoleCall(p)) return;
       // No marcamos strings dentro de t('...')
-      if (isInsideTCall(p)) return
+      if (isInsideTCall(p)) return;
 
-      const calleeStr = calleeToString(p.node.callee)
+      const calleeStr = calleeToString(p.node.callee);
 
       // Alert.alert("Título", "Mensaje")
       if (calleeStr === 'Alert.alert') {
-        const args = p.node.arguments || []
+        const args = p.node.arguments || [];
         for (let i = 0; i < Math.min(args.length, 2); i++) {
-          const s = getStringValue(args[i])
+          const s = getStringValue(args[i]);
           if (s !== null && !isWhitespaceOnly(s)) {
             addIssue(
               args[i],
               'alert_string',
               'Alert.alert con string hardcodeado. Sustitúyelo por t("...").'
-            )
+            );
           }
         }
       }
     },
-  })
+  });
 
-  return issues
+  return issues;
 }
 
 function formatIssue(i) {
-  const rel = path.relative(ROOT_DIR, i.file)
-  const where = i.line ? `${rel}:${i.line}:${i.column}` : rel
+  const rel = path.relative(ROOT_DIR, i.file);
+  const where = i.line ? `${rel}:${i.line}:${i.column}` : rel;
   return [
     `❌ ${where}`,
     `   Tipo: ${i.kind}`,
     `   Motivo: ${i.message}`,
     i.excerpt ? `   → ${i.excerpt}` : '',
-  ].filter(Boolean).join('\n')
+  ]
+    .filter(Boolean)
+    .join('\n');
 }
 
 function main() {
-  console.log('🔎 Validando que no haya textos hardcodeados en UI...\n')
+  console.log('🔎 Validando que no haya textos hardcodeados en UI...\n');
 
-  const files = []
+  const files = [];
   for (const d of SCAN_DIRS) {
-    const full = path.join(ROOT_DIR, d)
-    walkDir(full, files)
+    const full = path.join(ROOT_DIR, d);
+    walkDir(full, files);
   }
 
   if (files.length === 0) {
-    console.log('⚠️  No se encontraron archivos para analizar. Revisa SCAN_DIRS.')
-    process.exit(0)
+    console.log('⚠️  No se encontraron archivos para analizar. Revisa SCAN_DIRS.');
+    process.exit(0);
   }
 
-  let allIssues = []
+  let allIssues = [];
   for (const f of files) {
-    const issues = validateFile(f)
-    if (issues.length) allIssues = allIssues.concat(issues)
+    const issues = validateFile(f);
+    if (issues.length) allIssues = allIssues.concat(issues);
   }
 
   if (allIssues.length) {
     // Ordena para lectura
     allIssues.sort((a, b) => {
-      if (a.file !== b.file) return a.file.localeCompare(b.file)
-      if (a.line !== b.line) return a.line - b.line
-      return a.column - b.column
-    })
+      if (a.file !== b.file) return a.file.localeCompare(b.file);
+      if (a.line !== b.line) return a.line - b.line;
+      return a.column - b.column;
+    });
 
-    console.error(`❌ Encontrados ${allIssues.length} posibles textos hardcodeados:\n`)
+    console.error(`❌ Encontrados ${allIssues.length} posibles textos hardcodeados:\n`);
     for (const i of allIssues) {
-      console.error(formatIssue(i))
-      console.error('')
+      console.error(formatIssue(i));
+      console.error('');
     }
 
-    console.error('❌ Validación fallida. Migra esos textos a i18n y vuelve a ejecutar.')
-    process.exit(1)
+    console.error('❌ Validación fallida. Migra esos textos a i18n y vuelve a ejecutar.');
+    process.exit(1);
   }
 
-  console.log('✅ OK: No se detectaron textos hardcodeados en UI.')
+  console.log('✅ OK: No se detectaron textos hardcodeados en UI.');
 }
 
-main()
-
-
+main();
 ```
 
 **Ejecutar:**
 
 ```bash
-node scripts/validate-no-hardcoded-ui.js
+node scripts/validate/validate--NoHardcodedUI.js
 ```
-
-
 
 ---
 
@@ -1511,70 +1493,69 @@ node scripts/validate-no-hardcoded-ui.js
 ### ✅ DO (Hacer)
 
 1. **Organizar por namespaces lógicos**
-   
+
    ```typescript
    // ✅ Bueno
-   t('auth:login.email')
-   t('profile:settings.language')
+   t('auth:login.email');
+   t('profile:settings.language');
    ```
 
 2. **Usar interpolación para variables**
-   
+
    ```typescript
    // ✅ Bueno
    t('welcome.message', { name: user.name })
-   
    // ❌ Malo
-   `Welcome, ${user.name}!` // Hardcoded
+   `Welcome, ${user.name}!`; // Hardcoded
    ```
 
 3. **Usar pluralización**
-   
+
    ```json
    {
-    "items_one": "{{count}} item",
-    "items_other": "{{count}} items"
+     "items_one": "{{count}} item",
+     "items_other": "{{count}} items"
    }
    ```
 
 4. **Keys descriptivas**
-   
+
    ```typescript
    // ✅ Bueno
-   t('errors.auth.invalidCredentials')
-   
+   t('errors.auth.invalidCredentials');
+
    // ❌ Malo
-   t('error1')
+   t('error1');
    ```
 
 ### ❌ DON'T (No hacer)
 
 1. **No hardcodear textos**
-   
+
    ```typescript
    // ❌ Malo
    <Text>Welcome</Text>
-   
+
    // ✅ Bueno
    <Text>{t('common:welcome')}</Text>
    ```
 
 2. **No concatenar traducciones**
-   
+
    ```typescript
    // ❌ Malo
-   t('hello') + ' ' + t('world')
-   
+   t('hello') + ' ' + t('world');
+
    // ✅ Bueno
-   t('helloWorld')
+   t('helloWorld');
    ```
 
 3. **No traducir variables dinámicas**
-   
+
    ```typescript
    // ❌ Malo
-   t(dynamicKey) // Imposible validar con TypeScript
-   
+   t(dynamicKey); // Imposible validar con TypeScript
+
    // ✅ Bueno
-   t('errors.auth.invalidCredentials')
+   t('errors.auth.invalidCredentials');
    ```

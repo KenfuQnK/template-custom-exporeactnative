@@ -1,0 +1,81 @@
+{
+  "buttons": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "add": "Añadir",
+    "confirm": "Confirmar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "finish": "Finalizar",
+    "close": "Cerrar",
+    "ok": "OK",
+    "yes": "Sí",
+    "no": "No",
+    "retry": "Reintentar",
+    "continue": "Continuar",
+    "accept": "Aceptar",
+    "decline": "Rechazar",
+    "share": "Compartir"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "profile": "Perfil",
+    "settings": "Ajustes",
+    "search": "Buscar",
+    "notifications": "Notificaciones",
+    "goBack": "Volver",
+    "screenNotFound": "Pantalla no encontrada"
+  },
+  "messages": {
+    "loading": "Cargando...",
+    "refreshing": "Actualizando...",
+    "success": "Operación correcta",
+    "error": "Ha ocurrido un error",
+    "noData": "No hay datos disponibles",
+    "noResults": "No se encontraron resultados",
+    "emptyList": "La lista está vacía",
+    "connectionError": "Error de conexión. Comprueba tu internet",
+    "tryAgain": "Inténtalo de nuevo"
+  },
+  "time": {
+    "now": "Ahora",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "tomorrow": "Mañana",
+    "daysAgo_one": "hace {{count}} día",
+    "daysAgo_other": "hace {{count}} días",
+    "hoursAgo_one": "hace {{count}} hora",
+    "hoursAgo_other": "hace {{count}} horas",
+    "minutesAgo_one": "hace {{count}} minuto",
+    "minutesAgo_other": "hace {{count}} minutos"
+  },
+  "confirmation": {
+    "deleteTitle": "¿Eliminar?",
+    "deleteMessage": "Esta acción no se puede deshacer",
+    "unsavedChangesTitle": "Cambios sin guardar",
+    "unsavedChangesMessage": "Tienes cambios sin guardar. ¿Quieres salir?"
+  },
+  "language": {
+    "title": "Idioma",
+    "subtitle": "Elige tu idioma"
+  },
+  "example": {
+    "tabs": { "one": "Pestaña 1", "two": "Pestaña 2" },
+    "home": { "greeting": "Hola Mundo", "subtitle": "Esta es la pestaña 1" },
+    "tabTwo": { "greeting": "Hola Mundo", "subtitle": "Esta es la pestaña 2" },
+    "modal": {
+      "title": "Hola mundo",
+      "subtitle": "Soy un modal funcional",
+      "footer": "Template Custom"
+    },
+    "notFound": {
+      "headerTitle": "¡Vaya!",
+      "title": "Página no encontrada",
+      "subtitle": "Esta pantalla no existe o ha sido movida.",
+      "goHome": "Ir a la pantalla de inicio"
+    }
+  }
+}
