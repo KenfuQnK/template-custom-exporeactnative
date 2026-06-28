@@ -3,20 +3,36 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "scripts": {
+    "postinstall": "patch-package",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "start": "expo start",
     "start:tunnel": "expo start --tunnel",
+    "start:dev-client": "node scripts/start-dev-client.js",
+    "start:dev-client:tunnel": "node scripts/start-dev-client.js --host tunnel",
+    "start:dev-client:localhost": "node scripts/start-dev-client.js --host localhost",
     "prebuild": "expo prebuild",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" && prettier -c \"**/*.{js,jsx,ts,tsx,json}\"",
     "format": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix && prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
     "web": "expo start --web",
     "check": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "validate:translations": "node scripts/validate/validate-Translations.js",
     "validate:ui": "node scripts/validate/validate-NoHardcodedUI.js",
     "validate": "npm run validate:translations && npm run validate:ui",
+    "build:android:development": "npx --yes eas-cli build --platform android --profile development",
     "build:android:preview": "npx --yes eas-cli build --platform android --profile preview",
-    "build:android:production": "npx --yes eas-cli build --platform android --profile production"
+    "build:android:production": "npx --yes eas-cli build --platform android --profile production",
+    "build:ios:development": "npx --yes eas-cli build --platform ios --profile development",
+    "build:ios:preview": "npx --yes eas-cli build --platform ios --profile preview",
+    "build:ios:production": "npx --yes eas-cli build --platform ios --profile production",
+    "credentials:android:development": "npx --yes eas-cli credentials:configure-build --platform android --profile development",
+    "credentials:android:preview": "npx --yes eas-cli credentials:configure-build --platform android --profile preview",
+    "credentials:android:production": "npx --yes eas-cli credentials:configure-build --platform android --profile production",
+    "credentials:ios:development": "npx --yes eas-cli credentials:configure-build --platform ios --profile development",
+    "credentials:ios:preview": "npx --yes eas-cli credentials:configure-build --platform ios --profile preview",
+    "credentials:ios:production": "npx --yes eas-cli credentials:configure-build --platform ios --profile production"
   },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.2",
@@ -25,6 +41,7 @@
     "@react-navigation/native": "^7.1.6",
     "expo": "^54.0.0",
     "expo-constants": "~18.0.9",
+    "expo-dev-client": "~6.0.21",
     "expo-linking": "~8.0.8",
     "expo-localization": "~17.0.8",
     "expo-router": "~6.0.10",
@@ -47,14 +64,27 @@
     "@babel/core": "^7.20.0",
     "@babel/parser": "^7.28.5",
     "@babel/traverse": "^7.28.5",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "13.3.3",
+    "@types/jest": "^30.0.0",
     "@types/react": "~19.1.10",
     "eslint": "^9.25.1",
     "eslint-config-expo": "~10.0.0",
     "eslint-config-prettier": "^10.1.2",
+    "jest-expo": "~54.0.17",
+    "patch-package": "^8.0.1",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
+    "react-test-renderer": "19.1.0",
     "tailwindcss": "^3.4.0",
     "typescript": "~5.9.2"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/REFERENCIA/"
+    ]
   },
   "private": true
 }
