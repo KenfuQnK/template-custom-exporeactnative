@@ -26,10 +26,12 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "buildNumber": "1",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.templateapp"
     },
     "android": {
       "versionCode": 1,
+      "package": "com.example.templateapp",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
