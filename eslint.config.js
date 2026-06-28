@@ -5,9 +5,26 @@ module.exports = defineConfig([
   expoConfig,
   {
     // Node-only tooling and generated/native folders are not app code.
-    ignores: ['dist/*', '.expo/**', 'android/**', 'ios/**', 'scripts/**'],
+    // REFERENCIA/ is gitignored sample code kept for inspiration, not part of the app.
+    ignores: ['dist/*', '.expo/**', 'android/**', 'ios/**', 'scripts/**', 'REFERENCIA/**'],
   },
   {
+    settings: {
+      'import/resolver': {
+        node: {
+          extensions: [
+            '.native.ts',
+            '.native.tsx',
+            '.web.ts',
+            '.web.tsx',
+            '.ts',
+            '.tsx',
+            '.js',
+            '.jsx',
+          ],
+        },
+      },
+    },
     rules: {
       'react/display-name': 'off',
       // Enforce the Rules of Hooks across the template.
