@@ -20,11 +20,11 @@ La descripción de la aplicación se encuentra aquí:
 
 ## 🎯 Stack Tecnológico
 
-- **Framework:** Expo SDK 54 / React Native 0.76+
+- **Framework:** Expo + React Native (versiones exactas en `package.json` — no las dupliques aquí, se desincronizan)
 - **Lenguaje:** TypeScript con modo estricto
 - **Estilos:** NativeWind 4.x (Tailwind CSS para React Native)
 - **Navegación:** Expo Router (file-based routing)
-- **Estado:** Context API + useReducer / Zustand (si aplica) --REVISAR!!!!!!!!!!!!!
+- **Estado:** Context API. Zustand/Redux solo si hace falta de verdad — no se añaden por adelantado. Hoy el único contexto real es `LanguageContext`.
 - **Runtime:** Node.js v22.x
 - **Package Manager:** npm
 
@@ -34,16 +34,17 @@ La descripción de la aplicación se encuentra aquí:
 
 ```
 project-root/
-├── app/                  # Expo Router - App directory (file-based routing)
-│   ├── (tabs)/            # Tab navigation screens
-│   ├── (auth)/            # Authentication flow
-│   ├── (modals)/            # Modals
-│   ├── _layout.tsx        # Root layout
-│   └── index.tsx          # Home screen
+├── app/                      # Expo Router - App directory (file-based routing)
+│   ├── (tabs)/                # Pantallas de tabs
+│   │   ├── _layout.tsx
+│   │   ├── index.tsx
+│   │   └── two.tsx
+│   ├── _layout.tsx             # Root layout (Stack + providers)
+│   ├── modal.tsx                # Ejemplo de modal (ver .ai/skills/webapp-create-modal)
+│   ├── +html.tsx
+│   └── +not-found.tsx
 ├── src/                  # Código fuente
-│   ├── components/            # Componentes reutilizables
-│   │   ├── ui/               # Componentes UI base
-│   │   └── layout/           # Layouts y wrappers
+│   ├── components/            # Componentes reutilizables — plano (Button.tsx, Container.tsx, HeaderButton.tsx...); subcarpetas por feature solo si el grupo crece lo bastante para justificarlo
 │   ├── hooks/                # Lógica de React reutilizable
 │   ├── context/              # Estado global de la aplicación 
 │   ├── constants/            # Valores fijos que nunca cambian (claves API, URLs, configuraciones)
@@ -51,20 +52,18 @@ project-root/
 │   ├── lib/                  # Instancias de clientes externos (inicialización de los servicios)
 │   ├── services/             # API calls y servicios externos 
 │   ├── types/                # Definiciones de tipos TypeScript
-├── assets/               # Recursos
-│   ├── icons/             # Iconos (generalmente .svg)
-│   ├── images/            # Imágenes (generalmente .png, .jpg)
-│   ├── videos/            # Vídeos (generalmente .mp4)
-│   ├── fonts/             # Fuentes (generalmente .ttf o .oft)
+├── assets/               # Recursos — plano (icon.png, splash.png...); subcarpetas solo si el volumen de assets lo justifica
 ├── tailwind.config.js    # Configuración de Tailwind/NativeWind (colores, tamaños)
 ├── app.json              # Configuración de Expo
 └── package.json          # Dependencias del proyecto
 ```
 
+Si se implementa autenticación, créala como grupo `(auth)/` — ver `.ai/features/authentification-system/`.
+
 ### Ubicación de Archivos Clave
 
 - **Screens/Pages:** `app/` (usa Expo Router file-based routing)
-- **Componentes UI:** `components/ui/` Componentes UI base (Button, Input, Card, etc.)
+- **Componentes UI:** `src/components/` Componentes UI base (Button, Input, Card, etc.)
 - **Estilos globales:** NativeWind en `tailwind.config.js` + clases inline
 - **Assets estáticos:** `assets/` (imágenes en `assets/images/`, fuentes en `assets/fonts/`)
 - **Tipos TypeScript:** `types/` o colocados con el archivo `.types.ts`
@@ -90,6 +89,9 @@ project-root/
 ├── .send/              # Ignorar, No usar (la uso yo para crear ficheros y enviarlos fuera)
 ├── .bkp/               # Ignorar, No usar (la uso yo para crear backups manuales)
 ├── _START.bat          # Ignorar, No usar (lo uso yo para rápidamente iniciar la aplicación)
+├── .claude/launch.json # Puerto fijo del dev server web (evita colisiones con tooling de preview/agente)
+├── scripts/dev/        # Scripts para que un agente de IA controle un emulador Android (adb tap/swipe/screenshot)
+├── patches/            # Parches de patch-package para dependencias nativas con bugs
 ```
 
 ---
@@ -254,7 +256,7 @@ Recuerda siempre estas restricciones al generar código.
   - Componentes: PascalCase (`LoginScreen`, `UserCard`)
   - Funciones/variables: camelCase (`getUserData`, `isLoading`)
   - Constantes: UPPER_SNAKE_CASE (`API_URL`, `MAX_RETRIES`)
-  - Tipos/Interfaces: PascalCase con prefijo `I` para interfaces (`IUser`, `IApiResponse`)
+  - Tipos/Interfaces: PascalCase, SIN prefijo `I` (`User`, `Post`, no `IUser`)
 - **Preferir:**
   - `const` sobre `let`
   - Arrow functions en componentes funcionales
@@ -319,7 +321,7 @@ export function Button({ title, onPress, variant = 'primary' }: ButtonProps) {
 ```typescript
 // hooks/useAuth.ts
 export function useAuth() {
-  const [user, setUser] = useState<IUser | null>(null)
+  const [user, setUser] = useState<AppUser | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -389,7 +391,9 @@ project-root/
 
 ---
 
-## 🧪 Testing ------- REVISAR!!!!!!!!!!
+## 🧪 Testing
+
+Jest (`jest-expo`) + React Native Testing Library están configurados. Ejemplo real en `src/components/Button.test.tsx`. Todo componente nuevo con lógica (no uno puramente visual) debería tener su `.test.tsx`.
 
 ### Herramientas
 
@@ -438,7 +442,7 @@ describe('Button', () => {
 - **Colores:** Definidos en `tailwind.config.js` bajo `theme.colors`
 - **Tipografía:** Usar clases de Tailwind (`text-sm`, `text-lg`, `font-bold`)
 - **Espaciado:** Sistema de 4px (usar `p-1`, `p-2`, `m-4`, etc.)
-- **Componentes base:** Mantener en `components/ui/` (Button, Input, Card, Modal)
+- **Componentes base:** Mantener en `src/components/` (Button, Input, Card, Modal)
 
 ### Accesibilidad (a11y)
 
@@ -667,6 +671,15 @@ Cuando se te pida hacer cambios:
 
 ---
 
+## 🧠 Gotchas Aprendidos
+
+Detalles no obvios de este stack. Añade aquí cualquier otro que descubras — no lo dejes solo en el historial de chat de una sesión de IA.
+
+- **Edición de ficheros de locale (`src/locales/*/*.json`):** si tocas estos ficheros con una herramienta de edición de texto, no escribas comillas tipográficas (“ ”) a mano — usa siempre escape Unicode (`“`, `”`) o copia el carácter exacto del fichero. Es fácil sustituir una comilla de apertura por una de cierre sin que se note a simple vista.
+- **Expo Router + `tsc`:** una ruta nueva en `app/` puede dar error de tipos ("ruta no encontrada") hasta que `.expo/types/router.d.ts` se regenere, lo cual requiere haber arrancado un dev server al menos una vez. Si ves ese error justo tras crear un fichero en `app/`, arranca `npm start` antes de seguir investigando.
+
+---
+
 ## 🎯 Objetivos de Calidad
 
 - ✅ **100% TypeScript** - Sin archivos `.js` o `.jsx`
@@ -707,7 +720,7 @@ Cuando se te pida hacer cambios:
 - **NativeWind Docs:** https://www.nativewind.dev/
 - **Tailwind CSS Docs:** https://tailwindcss.com/docs
 - **TypeScript Handbook:** https://www.typescriptlang.org/docs/
-- **React Navigation:** https://reactnavigation.org/ (si se usa) REVISAAAAAAAAAAAAAAAAAR
+- **React Navigation:** solo como dependencia transitiva de Expo Router — no se usa su API directamente.
 - **Expo Router:** https://expo.github.io/router/docs/
 
 ---
@@ -722,7 +735,4 @@ Cuando se te pida hacer cambios:
 
 ---
 
-**Versión Node.js:** v22.x  
-**Versión Expo SDK:** 52+  
-**Versión React Native:** 0.76+  
-**Versión NativeWind:** 4.x
+**Versiones exactas:** ver `package.json`. No las copies aquí — es la segunda vez que este bloque queda desincronizado.
