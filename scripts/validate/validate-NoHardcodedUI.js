@@ -118,7 +118,8 @@ function walkDir(dirPath, results) {
       walkDir(full, results);
       continue;
     }
-    if (EXTENSIONS.has(path.extname(entry.name))) results.push(full);
+    if (EXTENSIONS.has(path.extname(entry.name)) && !/\.(test|spec)\.[jt]sx?$/.test(entry.name))
+      results.push(full);
   }
 }
 
