@@ -1,0 +1,15 @@
+# Todo texto del proyecto usa LF
+* text=auto eol=lf
+
+# Binarios: Git no debe tocar sus finales de línea
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary

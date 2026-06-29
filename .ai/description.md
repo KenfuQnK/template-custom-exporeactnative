@@ -12,6 +12,7 @@ Este es el repositorio de <NombreDeLaAplicacion>.
 ## Plataforma
 
 La app está pensada para usarse en:
+
 - Android
 - iOS
 - Web

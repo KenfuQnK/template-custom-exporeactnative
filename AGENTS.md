@@ -8,7 +8,6 @@ nota personal: revisar esto:
 https://github.com/anthropics/skills
 https://github.com/github/awesome-copilot/tree/main/skills
 
-
 ## 📝 Descripción General
 
 Este proyecto es una aplicación construida con **Expo React Native** usando **NativeWind** (Tailwind CSS).
@@ -24,7 +23,7 @@ La descripción de la aplicación se encuentra aquí:
 - **Lenguaje:** TypeScript con modo estricto
 - **Estilos:** NativeWind 4.x (Tailwind CSS para React Native)
 - **Navegación:** Expo Router (file-based routing)
-- **Estado:** Context API. Zustand/Redux solo si hace falta de verdad — no se añaden por adelantado. Hoy el único contexto real es `LanguageContext`.
+- **Estado:** Zustand para estado global de cliente; Context API solo para providers obligatorios de librerías o dependencias estables.
 - **Runtime:** Node.js v22.x
 - **Package Manager:** npm
 
@@ -35,28 +34,35 @@ La descripción de la aplicación se encuentra aquí:
 ```
 project-root/
 ├── app/                      # Expo Router - App directory (file-based routing)
-│   ├── (tabs)/                # Pantallas de tabs
-│   │   ├── _layout.tsx
-│   │   ├── index.tsx
-│   │   └── two.tsx
-│   ├── _layout.tsx             # Root layout (Stack + providers)
-│   ├── modal.tsx                # Ejemplo de modal (ver .ai/skills/webapp-create-modal)
+│   ├── (tabs)/               # Pantallas de tabs
+│   ├── (auth)/               # Autentificacion de usuarios (si aplica)
+│   ├── (modals)/             # Modals (si aplica)
+│   ├── _layout.tsx           # Root layout (Stack + providers)
+│   ├── index.tsx          # Home screen
 │   ├── +html.tsx
 │   └── +not-found.tsx
-├── src/                  # Código fuente
-│   ├── components/            # Componentes reutilizables — plano (Button.tsx, Container.tsx, HeaderButton.tsx...); subcarpetas por feature solo si el grupo crece lo bastante para justificarlo
+├── src/                      # Código fuente
+│   ├── components/           # Componentes reutilizables
+│   │   ├── ui/               # Componentes UI base
+│   │   └── layout/           # Layouts y wrappers
 │   ├── hooks/                # Lógica de React reutilizable
-│   ├── context/              # Estado global de la aplicación 
-│   ├── constants/            # Valores fijos que nunca cambian (claves API, URLs, configuraciones)
-│   ├── utils/                # Funciones genéricas que se pueden utilizar en varios proyectos 
+│   ├── stores/               # Estado global de cliente con Zustand
+│   ├── constants/            # Valores fijos que nunca cambian (URLs, configuraciones)
+│   ├── utils/                # Funciones genéricas que se pueden utilizar en varios proyectos
 │   ├── lib/                  # Instancias de clientes externos (inicialización de los servicios)
-│   ├── services/             # API calls y servicios externos 
+│   ├── services/             # API calls y servicios externos
 │   ├── types/                # Definiciones de tipos TypeScript
-├── assets/               # Recursos — plano (icon.png, splash.png...); subcarpetas solo si el volumen de assets lo justifica
+├── assets/               # Recursos
+│   ├── icons/             # Iconos (generalmente .svg)
+│   ├── images/            # Imágenes (generalmente .png, .jpg)
+│   ├── videos/            # Vídeos (generalmente .mp4)
+│   ├── fonts/             # Fuentes (generalmente .ttf o .oft)
 ├── tailwind.config.js    # Configuración de Tailwind/NativeWind (colores, tamaños)
 ├── app.json              # Configuración de Expo
 └── package.json          # Dependencias del proyecto
 ```
+
+En components/ crea subcarpetas por feature solo si el grupo crece lo bastante para justificarlo
 
 Si se implementa autenticación, créala como grupo `(auth)/` — ver `.ai/features/authentification-system/`.
 
@@ -67,12 +73,12 @@ Si se implementa autenticación, créala como grupo `(auth)/` — ver `.ai/featu
 - **Estilos globales:** NativeWind en `tailwind.config.js` + clases inline
 - **Assets estáticos:** `assets/` (imágenes en `assets/images/`, fuentes en `assets/fonts/`)
 - **Tipos TypeScript:** `types/` o colocados con el archivo `.types.ts`
-- **Funciones genéricas:** `utils/` Funciones genéricas que se pueden utilizar en varios proyectos 
+- **Funciones genéricas:** `utils/` Funciones genéricas que se pueden utilizar en varios proyectos
 - **Instancias de clientes externos:** `lib/`
 - **API calls y servicios externos:** `services/` importar objetos iniciados en lib\ y usar sus funciones
-- **Contexto global:** `context/` Estado global de la aplicación (Usuario logueado, Tema claro/oscuro) para no pasar datos manualmente entre componentes
+- **Estado global de cliente:** `src/stores/` Stores de Zustand por dominio: autenticación, estado global de UI, etc.
 - **Hooks:** `hooks/` funciones que empiezan por use...
-- **Constantes:** `constants/` Valores fijos que nunca cambian (claves API, URLs, configuraciones)
+- **Constantes:** `constants/` Valores fijos que nunca cambian (URLs, configuraciones). A excepcion de las claves APIs.
 
 ## 📁 Estructura auxiliar del desarrollo del Proyecto
 
@@ -93,6 +99,58 @@ project-root/
 ├── scripts/dev/        # Scripts para que un agente de IA controle un emulador Android (adb tap/swipe/screenshot)
 ├── patches/            # Parches de patch-package para dependencias nativas con bugs
 ```
+
+---
+
+## Gestión de estado
+
+Usar esta jerarquía de decisión:
+
+1. `useState` para estado local simple de un componente o pantalla.
+
+- Ejemplos: visibilidad de un modal, valor de un input, loading de un botón, pestaña seleccionada.
+
+2. `useReducer` para estado local complejo con varias transiciones o acciones relacionadas.
+
+- Ejemplos: formularios largos, editores, asistentes paso a paso, selección múltiple, flujos de creación/edición.
+- Mantener el reducer dentro de la feature o pantalla. No usarlo como estado global por defecto.
+
+3. `Zustand` para todo estado global de cliente compartido entre pantallas, componentes o navegación.
+
+- Ejemplos: autenticación y usuario actual, preferencias, tema de aplicación, estado de UI global, filtros compartidos, carrito, contenido temporal compartido.
+- Crear stores pequeños y separados por dominio o feature. Nunca crear un único store gigante para toda la aplicación.
+- Usar siempre selectores específicos:
+  `const user = useAuthStore((state) => state.user)`
+- No seleccionar el store completo.
+- Las acciones deben vivir en el store y tener nombres explícitos: signIn, signOut, setTheme.
+- Persistir solo lo necesario mediante Zustand persist + AsyncStorage.
+- No persistir tokens sensibles sin una solución de almacenamiento seguro específica.
+
+4. `Context API` no debe usarse para crear nuevos estados globales de producto.
+
+- Reservarlo para providers obligatorios de librerías o dependencias estables.
+- Ejemplos válidos: SafeAreaProvider, GestureHandlerRootView, providers de navegación, i18n si la librería lo exige, cliente de tema si la librería lo exige.
+- Evitar crear AuthProvider, FeedProvider, PreferencesProvider, ToastProvider, etc. si pueden resolverse con stores de Zustand.
+
+5. Separar estado de cliente y estado remoto:
+
+- Zustand para estado de interfaz y estado local compartido.
+- Para datos obtenidos de API, Supabase o backend, usar una capa específica de fetching/caché cuando el proyecto lo requiera.
+- No duplicar en Zustand respuestas remotas que ya tengan una caché de consultas, salvo que exista una razón concreta.
+
+### Estructura recomendada:
+
+├── src/  
+│ ├─ stores/ ← Estado global con Zustand
+│ │ ├─ auth.store.ts
+│ │ ├─ app.store.ts
+│ │ └─ preferences.store.ts
+
+### Regla principal:
+
+No añadir un Context Provider nuevo para una feature.
+Antes de crear estado global, comprobar si el estado puede quedarse local con useState o useReducer.
+Si debe compartirse fuera de la feature o entre pantallas, usar un store de Zustand pequeño, tipado y centrado en un dominio.
 
 ---
 
@@ -198,50 +256,59 @@ Actúa como un desarrollador experto en React Native (Expo Router), TypeScript e
 
 ### 1. Sistema de Módulos (Exports & Imports)
 
-- **Carpeta `app/` y archivos de sistema:** OBLIGATORIO usar `export default` en cualquier archivo dentro de `app/` (páginas, layouts) y en archivos especiales como `+html.tsx`, `babel.config.js`, etc. Expo Router lo requiere.
+- **Rutas Expo Router (`app/`):** OBLIGATORIO usar `export default` en páginas, layouts y archivos especiales de Expo Router que exporten componentes, como `+html.tsx`.
+  - Ejemplo: `export default function HomeScreen() {}`
+- **Código de aplicación fuera de `app/`:** OBLIGATORIO usar named exports.
+  - Aplica a `src/components/`, `src/hooks/`, `src/services/`, `src/stores/`, `src/utils/`, `src/lib/`, `src/types/`, etc.
+  - Correcto: `export function Button() {}`
+  - Correcto: `export const formatDate = () => {}`
+  - Incorrecto: `export default function Button() {}`
+- **Expo Router + `tsc`:** una ruta nueva en `app/` puede dar error de tipos ("ruta no encontrada") hasta que `.expo/types/router.d.ts` se regenere, lo cual requiere haber arrancado un dev server al menos una vez. Si ves ese error justo tras crear un fichero en `app/`, arranca `npm start` antes de seguir investigando.
 - **Resto del proyecto (`components/`, `utils/`, `hooks/`, etc.):** OBLIGATORIO usar **Named Exports**.
-  - *Correcto:* `export function MiComponente() {}`
-  - *Correcto:* `export const miUtilidad = () => {}`
-  - *Incorrecto:* `export default function...`
+  - _Correcto:_ `export function MiComponente() {}`
+  - _Correcto:_ `export const miUtilidad = () => {}`
+  - _Incorrecto:_ `export default function...`
 - **Imports:** Usa siempre llaves `{}` para los componentes propios (consecuencia de los Named Exports).
-  - *Ejemplo:* `import { MiComponente } from '@/components/MiComponente';`
+  - _Ejemplo:_ `import { MiComponente } from '@/components/MiComponente';`
 
 ### 2. Internacionalización (i18n)
 
 - **Textos de UI:** Si existe una carpeta de idiomas (`locales` o `locale`), todos los textos fijos de la interfaz deben implementarse mediante el sistema `i18next` usando la función `t`. Los textos deben registrarse en los archivos `.json` correspondientes.
 - **Formato de claves:** Usa siempre el namespace explícito en cada llamada a `t`.
-  - *Formato:* `t('namespace:clave')` o `t('namespace:objeto.clave')`.
+  - _Formato:_ `t('namespace:clave')` o `t('namespace:objeto.clave')`.
 - **Hook:** Declara siempre el namespace en el array de carga.
-  - *Ejemplo:* `const { t } = useTranslation(['auth']);`
+  - _Ejemplo:_ `const { t } = useTranslation(['auth']);`
 - **Instancia:** La configuración de i18n debe exportarse como `export { i18n };` al final del archivo, nunca como default.
+- **Edición de ficheros de locale (`src/locales/*/*.json`):** si tocas estos ficheros con una herramienta de edición de texto, no escribas comillas tipográficas (“ ”) a mano — usa siempre escape Unicode (`“`, `”`) o copia el carácter exacto del fichero. Es fácil sustituir una comilla de apertura por una de cierre sin que se note a simple vista.
 
 ### 3. Extensiones y Plataforma
 
 - **Archivos específicos:** Usa `.native.tsx` para código móvil (iOS/Android) y `.web.tsx` (o `.tsx` estándar) para web.
 - **Imports limpios:** Nunca importes la extensión en el código. Deja que el bundler decida.
-  - *Correcto:* `import Boton from './Boton';` (El bundler elegirá `Boton.native` o `Boton.web`).
+  - _Correcto:_ `import Boton from './Boton';` (El bundler elegirá `Boton.native` o `Boton.web`).
 - **Configuración TS:** Asegura que `tsconfig.json` tiene `"moduleSuffixes": [".native", ".web", ""]`.
 
 ### 4. Rutas y Alias
 
 - **Alias `@`:** Usa siempre el alias `@/` para importar archivos desde la raíz del proyecto para mantener uniformidad, en lugar de rutas relativas largas (`../../`).
 
-
 ### 5. React Hooks (Estricto)
+
 - **Reglas de los Hooks:** NUNCA llames a un Hook (`useEffect`, `useCallback`, etc.) de forma condicional ni después de un retorno (`if (x) return`). Los Hooks deben estar siempre en el nivel superior del componente.
-    * *Correcto:* `useEffect` antes de cualquier `if (loading) return null;`.
-    * *Incorrecto:* `if (!data) return; useEffect(...)`.
+  - _Correcto:_ `useEffect` antes de cualquier `if (loading) return null;`.
+  - _Incorrecto:_ `if (!data) return; useEffect(...)`.
 - **Exhaustive Desp (Dependencias Exhaustivas):**
-    * NUNCA desactives la regla de exhaustividad (`// eslint-disable-next-line react-hooks/exhaustive-deps`).
-    * Analiza si falta alguna dependencia en `useEffect`, `useMemo` o `useCallback`.
-    * Si una función es dependencia de un efecto, envuélvela en `useCallback` o muévela dentro del efecto.
-    * Si un objeto es dependencia, asegura su estabilidad con `useMemo` o extrayendo propiedades primitivas.
+  - NUNCA desactives la regla de exhaustividad (`// eslint-disable-next-line react-hooks/exhaustive-deps`).
+  - Analiza si falta alguna dependencia en `useEffect`, `useMemo` o `useCallback`.
+  - Si una función es dependencia de un efecto, envuélvela en `useCallback` o muévela dentro del efecto.
+  - Si un objeto es dependencia, asegura su estabilidad con `useMemo` o extrayendo propiedades primitivas.
 - **Verificación:** Antes de dar por finalizada una tarea, ejecuta el linter para asegurar que no hay warnings de hooks (`npx eslint`).
 
 ### 6. JSX y Literales de Texto
+
 - **Variables entre comillas:** Cuando sea necesario mostrar una variable envuelta en comillas dobles dentro de un componente JSX (como `<Text>`), utiliza siempre expresiones de llaves con literales de plantilla (backticks). Esto evita errores de lint y ambigüedades.
-    * *Ejemplo:* `{`"${recommendation.message}"`}`
-    * *Evitar:* `"${recommendation.message}"` o `"{recommendation.message}"` (si se busca consistencia con literales de plantilla).
+  - _Ejemplo:_ `{`"${recommendation.message}"`}`
+  - _Evitar:_ `"${recommendation.message}"` o `"{recommendation.message}"` (si se busca consistencia con literales de plantilla).
 
 Recuerda siempre estas restricciones al generar código.
 
@@ -271,6 +338,7 @@ Recuerda siempre estas restricciones al generar código.
 
 - **Clases de utilidad:** Usar clases de Tailwind vía `className` prop
 - **Diseño responsive:** Utilizar breakpoints (`sm:`, `md:`, `lg:`)
+- **Tamaños texto:** En la medida de lo posible usar text-xs, text-sm, text-base, text-lg, text-xl, etc. en vez de text-[XXpx]
 - **Temas:** Definir colores custom en `tailwind.config.js` bajo `theme.extend.colors`
 - **Convenciones:**
   - Agrupar clases lógicamente (layout → spacing → typography → colors)
@@ -297,7 +365,7 @@ interface ButtonProps {
 // 3. Component
 export function Button({ title, onPress, variant = 'primary' }: ButtonProps) {
   return (
-    <Pressable 
+    <Pressable
       onPress={onPress}
       className={`px-6 py-3 rounded-lg ${
         variant === 'primary' ? 'bg-blue-500' : 'bg-gray-500'
@@ -321,14 +389,14 @@ export function Button({ title, onPress, variant = 'primary' }: ButtonProps) {
 ```typescript
 // hooks/useAuth.ts
 export function useAuth() {
-  const [user, setUser] = useState<AppUser | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<AppUser | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Authentication logic
-  }, [])
+  }, []);
 
-  return { user, loading, login, logout }
+  return { user, loading, login, logout };
 }
 ```
 
@@ -365,6 +433,7 @@ Si falta información para reproducir, pide solo lo mínimo necesario.
 ### Logs obligatorios para tareas de chat y tools
 
 Usa prefijos constantes para que el usuario pueda verificar el orden.
+Si hay chatbots, incluye el mensaje completo que se envia y recibe del chatbot.
 
 ### Entrega esperada en cada cambio
 
@@ -426,7 +495,7 @@ describe('Button', () => {
 
 **Reglas:**
 
-- Cada componente debe tener un archivo `.test.tsx` correspondiente
+- Todo componente con lógica, interacción o comportamiento relevante debe tener un archivo `.test.tsx` correspondiente.
 - Usar `describe` para agrupar tests relacionados
 - Nombres de tests en español descriptivos: "debería [comportamiento esperado]"
 - Probar casos edge: props undefined, arrays vacíos, strings largos
@@ -475,10 +544,10 @@ describe('Button', () => {
 
 ### Gestión de Estado
 
-- **Simple:** Context API + useReducer
-- **Medio:** Zustand (si se usa)
-- **Complejo:** Redux Toolkit (solo si es necesario)
-- **Evitar:** State en componentes padre cuando puede ser local
+- Mantener el estado local con `useState` o `useReducer`.
+- Usar Zustand para estado global compartido entre pantallas, componentes o navegación.
+- No crear nuevos Context Providers para estado global de producto.
+- Evitar elevar estado a componentes padre cuando puede permanecer local.
 
 ### Performance
 
@@ -504,14 +573,16 @@ describe('Button', () => {
 ### Herramientas
 
 ```bash
-# Abrir React DevTools
-npm run react-devtools
-
+# React Native DevTools / Hermes debugger
+# Iniciar Expo y pulsar J en la terminal para abrir React Native DevTools.
+# También puede abrirse desde el menú de desarrollo de la app con "Open DevTools".
+# Los logs de desarrollo solo deben ser visibles en modo development (__DEV__)
 # Logs en desarrollo
-console.log() # Eliminar antes de commit
+console.log()
 
-# Debugging remoto
-# Shake device → Debug Remote JS → Chrome DevTools
+# Depuración remota legacy
+# NO usar "Debug Remote JS" ni Chrome DevTools remoto.
+# Está deprecado y puede comportarse distinto al runtime real de Hermes.
 ```
 
 ### Common Issues
@@ -520,7 +591,7 @@ console.log() # Eliminar antes de commit
 
 ```bash
 npm start -- --clear
-rm -rf node_modules
+rmdir /s /q node_modules
 npm install
 ```
 
@@ -543,7 +614,7 @@ npm run type-check
 ### Commits
 
 - **Formato:** Conventional Commits
-  
+
   ```
   feat: agregar pantalla de login
   fix: corregir crash en lista de usuarios
@@ -622,9 +693,10 @@ npx expo install <native-package>
 3. **SIEMPRE incluir** props interface antes del componente
 4. **SIEMPRE agregar** accessibilityLabel en elementos interactivos
 5. **PREFERIR** componentes funcionales con hooks sobre clases
-6. **PREFERIR** named exports + default export
-7. **EVITAR** `any` - tipar correctamente o usar `unknown`
-8. **EVITAR** código duplicado - extraer a funciones/componentes reutilizables
+6. **SIEMPRE usar** named exports en todo el código de aplicación fuera de `app/`.
+7. **SIEMPRE usar** `export default` únicamente en rutas/layouts de Expo Router y en archivos donde la herramienta lo requiera explícitamente.
+8. **EVITAR** `any` - tipar correctamente o usar `unknown`
+9. **EVITAR** código duplicado - extraer a funciones/componentes reutilizables
 
 ### Al Hacer Cambios
 
@@ -673,16 +745,13 @@ Cuando se te pida hacer cambios:
 
 ## 🧠 Gotchas Aprendidos
 
-Detalles no obvios de este stack. Añade aquí cualquier otro que descubras — no lo dejes solo en el historial de chat de una sesión de IA.
-
-- **Edición de ficheros de locale (`src/locales/*/*.json`):** si tocas estos ficheros con una herramienta de edición de texto, no escribas comillas tipográficas (“ ”) a mano — usa siempre escape Unicode (`“`, `”`) o copia el carácter exacto del fichero. Es fácil sustituir una comilla de apertura por una de cierre sin que se note a simple vista.
-- **Expo Router + `tsc`:** una ruta nueva en `app/` puede dar error de tipos ("ruta no encontrada") hasta que `.expo/types/router.d.ts` se regenere, lo cual requiere haber arrancado un dev server al menos una vez. Si ves ese error justo tras crear un fichero en `app/`, arranca `npm start` antes de seguir investigando.
+Añade en este fichero AGENTS.md cualquier detalle no obvio que descubras especialmente sobre errores repetitivos que encuentres — no lo dejes solo en el historial de chat de una sesión de IA.
 
 ---
 
 ## 🎯 Objetivos de Calidad
 
-- ✅ **100% TypeScript** - Sin archivos `.js` o `.jsx`
+- ✅ **Código de aplicación en TypeScript** - Sin `.js` ni `.jsx` en `app/` o `src/`, salvo archivos de configuración requeridos por herramientas.
 - ✅ **0 errores de linting** - Ejecutar antes de commit
 - ✅ **80%+ test coverage** - Para componentes críticos
 - ✅ **Accesibilidad WCAG 2.1 Level AA** - Mínimo
@@ -720,7 +789,6 @@ Detalles no obvios de este stack. Añade aquí cualquier otro que descubras — 
 - **NativeWind Docs:** https://www.nativewind.dev/
 - **Tailwind CSS Docs:** https://tailwindcss.com/docs
 - **TypeScript Handbook:** https://www.typescriptlang.org/docs/
-- **React Navigation:** solo como dependencia transitiva de Expo Router — no se usa su API directamente.
 - **Expo Router:** https://expo.github.io/router/docs/
 
 ---
@@ -735,4 +803,4 @@ Detalles no obvios de este stack. Añade aquí cualquier otro que descubras — 
 
 ---
 
-**Versiones exactas:** ver `package.json`. No las copies aquí — es la segunda vez que este bloque queda desincronizado.
+**Versiones exactas:** ver `package.json`.
